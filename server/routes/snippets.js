@@ -1,7 +1,7 @@
 const express = require("express");
 const Snippet = require("../models/Snippet");
 const router = express.Router();
-const AuthMiddleware = require("../routes/auth")
+const AuthMiddleware = require("../middleware/auth");
 
 
 

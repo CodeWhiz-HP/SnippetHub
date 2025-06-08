@@ -25,7 +25,7 @@ export default function SnippetCard({
   return (
     <div className="snippetcard w-[25vw] h-60 flex flex-col items-start p-3 bg-white rounded-md relative">
       <div
-        className="title w-[80%] overflow-hidden whitespace-pre-wrap break-words text-start text-gray800 font-semibold font-montserrat text-2xl mb-1 hover:cursor-pointer hover:text-indigo500"
+        className="title w-[80%] overflow-x-hidden h-fit whitespace-pre-wrap break-words text-start text-gray800 font-semibold font-montserrat text-2xl mb-1 hover:cursor-pointer hover:text-indigo500"
         onClick={() => navigate(`/snippet/${snippet._id}`)}
       >
         {snippet.title ? snippet.title : "Title"}

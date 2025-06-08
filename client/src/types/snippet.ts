@@ -9,5 +9,5 @@ export interface Snippet {
     pinned: boolean;
     type: 'text' | 'link' | 'code' | 'file';
     fileName?: string;
-  fileUrl?: string; 
+    fileUrl?: string;
 }
