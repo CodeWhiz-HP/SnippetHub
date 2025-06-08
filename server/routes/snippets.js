@@ -6,18 +6,27 @@ const AuthMiddleware = require("../routes/auth")
 
 
 router.get('/',AuthMiddleware, async(req,res) => {
-    const snippets = await Snippet.find();
+    const snippets = await Snippet.find({ userId: req.user.id });
     res.json(snippets);
 });
 
 router.post('/',AuthMiddleware, async(req,res) => {
-    const snippet = new Snippet(req.body);
+    const snippet = new Snippet({...req.body, userId: req.user.id });
     await snippet.save();
     res.status(201).json(snippet);
 });
 
 router.delete('/:id',AuthMiddleware, async (req,res) => {
-    const snippet = Snippet.findByIdAndDelete(req.params.id);
+    const snippet = await Snippet.findById(req.params.id);
+
+  if (!snippet) {
+    return res.status(404).json({ error: "Snippet not found" });
+  }
+
+  if (snippet.userId.toString() !== req.user.id) {
+    return res.status(403).json({ error: "You are not allowed to delete this snippet" });
+  }
+    await Snippet.findByIdAndDelete(req.params.id);
     res.status(204).end();
 });
 
