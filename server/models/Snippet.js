@@ -9,7 +9,11 @@ const snippetSchema = new mongoose.Schema({
     pinned: Boolean,
     fileName: String,
     fileUrl: String,
-    
+    userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  }
 });
 
 const Snippet = mongoose.model("Snippet", snippetSchema);
