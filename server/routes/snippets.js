@@ -10,6 +10,13 @@ router.get('/',AuthMiddleware, async(req,res) => {
     res.json(snippets);
 });
 
+router.get("/:id", AuthMiddleware, async (req, res) => {
+  const snippet = await Snippet.findOne({ _id: req.params.id, userId: req.user.id });
+  if (!snippet) return res.status(404).json({ error: "Snippet not found" });
+
+  res.json(snippet);
+});
+
 router.post('/',AuthMiddleware, async(req,res) => {
     const snippet = new Snippet({...req.body, userId: req.user.id });
     await snippet.save();
