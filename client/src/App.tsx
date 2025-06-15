@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './App.css';
 import './input.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -22,15 +23,25 @@ function App() {
 
 
   
+const { username } = useParams();
+const loggedInUsername = localStorage.getItem("username");
+
 useEffect(() => {
+  if (username !== loggedInUsername) {
+    // optional: redirect or show access denied
+    return;
+  }
+
   const load = async () => {
-    const snippets = await fetchSnippets();
+    const snippets = await fetchSnippets(); 
     const categories = await fetchCategories();
     setSnippets(snippets);
     setCategories(categories);
   };
+
   load();
-}, []);
+}, [username]);
+
 
   const handletogglePin = (id: string) => {
     setSnippets((prev) =>
@@ -49,10 +60,10 @@ useEffect(() => {
       <Router>
         <Routes>
           <Route path='/' element={<LandingPage />} />
-          <Route path="/home" element={<Home categories={categories} setCategories={setCategories} snippets={snippets} setSnippets={setSnippets} togglePin={handletogglePin}/>} />
-          <Route path="/pinned" element={<Pinned categories={categories} togglePin={handletogglePin} snippets={snippets} setSnippets={setSnippets} />} />
-          <Route path="/snippet/:id" element={<SnippetView categories={categories} snippets={snippets} setSnippets={setSnippets} />} />
-          <Route path="/category/:name" element={<CategoryPage snippets={snippets} setSnippets={setSnippets} togglePin={handletogglePin} />} />
+          <Route path="/u/:username/home" element={<Home categories={categories} setCategories={setCategories} snippets={snippets} setSnippets={setSnippets} togglePin={handletogglePin}/>} />
+          <Route path="/u/:username/pinned" element={<Pinned categories={categories} togglePin={handletogglePin} snippets={snippets} setSnippets={setSnippets} />} />
+          <Route path="/u/:username/snippet/:id" element={<SnippetView categories={categories} snippets={snippets} setSnippets={setSnippets} />} />
+          <Route path="/u/:username/category/:name" element={<CategoryPage snippets={snippets} setSnippets={setSnippets} togglePin={handletogglePin} />} />
         </Routes>
       </Router>
     </div>
