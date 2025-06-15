@@ -37,9 +37,20 @@ router.delete('/:id',AuthMiddleware, async (req,res) => {
     res.status(204).end();
 });
 
-router.put('/:id',AuthMiddleware, async (req,res) => {
-    const snippet = await Snippet.findByIdAndUpdate(req.params.id, req.body,{new : true});
-    res.json(snippet);
-})
+router.put('/:id', AuthMiddleware, async (req, res) => {
+  const snippet = await Snippet.findById(req.params.id);
+
+  if (!snippet) {
+    return res.status(404).json({ error: "Snippet not found" });
+  }
+
+  if (snippet.userId.toString() !== req.user.id) {
+    return res.status(403).json({ error: "You are not allowed to update this snippet" });
+  }
+
+  const updated = await Snippet.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updated);
+});
+
 
 module.exports = router;

@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const AuthMiddleware = require("../middleware/auth")
 
 const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret";
 
@@ -28,19 +29,6 @@ router.post("/login" , async (req,res) => {
     res.json({token , user: {id: user._id , name: user.name , email: user.email}});
 
 });
-
-const AuthMiddleware = (req,res,next) => {
-    const token = req.headers.authorization?.split(" ")[1];
-    if(!token) return res.status(401).json({ error: "No token provided." });
-
-    try{
-        const decode = jwt.verify(token , JWT_SECRET);
-        req.user = decode;
-        next();
-    } catch {
-        res.status(401).json({ error : "invalid token"});
-    }
-};
 
 
 router.get("/me", AuthMiddleware, async (req, res) => {
