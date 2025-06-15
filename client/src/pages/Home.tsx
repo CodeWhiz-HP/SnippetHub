@@ -3,6 +3,7 @@ import SnippetForm from "../components/SnippetForm";
 import { Snippet } from "../types/snippet";
 import SnippetCard from "../components/SnippetCard";
 import React, { useState , useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Category } from "../types/category";
 import { fetchSnippets , fetchCategories } from "../storage";
 
@@ -15,16 +16,23 @@ interface Props {
 }
 
 export default function Home({ snippets, setSnippets , togglePin, categories, setCategories}: Props) {
-
+  const { username } = useParams();
+const loggedInUsername = localStorage.getItem("username");
   useEffect(() => {
+    if (username !== loggedInUsername) {
+      // optional: redirect or show access denied
+      return;
+    }
+  
     const load = async () => {
-      const snippets = await fetchSnippets();
+      const snippets = await fetchSnippets(); 
       const categories = await fetchCategories();
       setSnippets(snippets);
       setCategories(categories);
     };
+  
     load();
-  }, []);
+  }, [username]);
 
   return (
     <div className="home flex">
