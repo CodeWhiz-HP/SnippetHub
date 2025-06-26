@@ -62,7 +62,7 @@ useEffect(() => {
           <Route path='/' element={<LandingPage />} />
           <Route path="/u/:username/home" element={<Home categories={categories} setCategories={setCategories} snippets={snippets} setSnippets={setSnippets} togglePin={handletogglePin}/>} />
           <Route path="/u/:username/pinned" element={<Pinned categories={categories} togglePin={handletogglePin} snippets={snippets} setSnippets={setSnippets} />} />
-          <Route path="/u/:username/snippet/:id" element={<SnippetView categories={categories} snippets={snippets} setSnippets={setSnippets} />} />
+          <Route path="/snippet/:id" element={<SnippetView categories={categories} snippets={snippets} setSnippets={setSnippets} />} />
           <Route path="/u/:username/category/:name" element={<CategoryPage snippets={snippets} setSnippets={setSnippets} togglePin={handletogglePin} />} />
         </Routes>
       </Router>
