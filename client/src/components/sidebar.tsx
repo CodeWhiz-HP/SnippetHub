@@ -56,7 +56,7 @@ export default function Sidebar() {
         <p className="text-[#8B5CF6] text-2xl font-montserrat">SnippetHub</p>
       </div>
       <div className="navigation text-lg font-montserrat flex flex-col gap-2 items-start text-gray800">
-        <Link to="/">
+        <Link to="/u/:username/home">
           <div className="home text-lg font-montserrat w-[18vw] p-3 pl-4 flex justify-start hover:bg-slate-400 hover:cursor-pointer">
             Home
           </div>
